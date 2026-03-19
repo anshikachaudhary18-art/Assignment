@@ -1,0 +1,158 @@
+Answer-1
+
+         Different types of data sources used in ETL
+1.Databases (Structured Data Sources)
+These are the most common sources in ETL.
+
+a) Relational Databases (RDBMS)
+Store data in tables (rows & columns).
+Support SQL queries.
+Examples: MySQL, PostgreSQL, Oracle, SQL Server
+
+b) NoSQL Databases
+Store unstructured or semi‑structured data.
+Flexible schema.
+Examples: MongoDB (documents), Cassandra (wide‑column), Redis (key‑value)
+
+2. Flat Files (Semi‑structured or Structured)
+These are simple files stored on local systems or cloud storage.
+
+a) CSV Files
+Comma‑separated values
+Easy to extract and widely used
+Example: Sales data stored in sales_2024.csv
+
+b) Excel Files (XLS/XLSX)
+Multiple sheets, formatting
+Example: Monthly HR attendance report in Excel
+
+c) Text Files (TXT)
+Logs, simple text data
+Example: Server log files	
+
+3. APIs (Application Programming Interfaces)
+Used for real‑time or on‑demand data extraction.
+Provide data in JSON or XML format
+Examples:Weather API for live temperature
+Stock Market API for real‑time prices
+
+4. Cloud Storage Services
+Modern ETL pipelines often pull data from cloud platforms.
+Examples: AWS S3, Google Cloud Storage, Azure Blob Storage
+
+5. Web Data Sources
+Used when data is available on websites. 
+a) Web Scraping
+Extracting data from HTML pages
+Example: Scraping product prices from an e‑commerce site
+
+b) Web Feeds
+RSS/Atom feeds
+Example: News feed extraction
+
+Answer-2
+Data extraction is the process of retrieving raw data from various sources such as databases, 
+files, APIs, and cloud storage. It is the first and most important step of the ETL pipeline.
+ Extraction gathers data from multiple systems, moves it to a staging area, and prepares it for transformation. 
+ It ensures that data is collected in a consistent format, supports full and incremental loads, 
+ and maintains data quality so that the transformation and loading steps can run smoothly.
+
+Answer-3
+
+*CSV (Comma‑Separated Values)
+Plain text file
+Only raw data — no colors, formulas, or formatting
+Very fast to extract
+Best for large datasets
+Works smoothly with all ETL tools
+Example: sales.csv used for loading into a data warehouse.
+
+*Excel (XLS/XLSX)
+Spreadsheet file
+Supports formulas, charts, formatting, multiple sheets
+Extraction is slower and needs special connectors
+Suitable for small or manually prepared data
+Example: attendance.xlsx shared by HR for monthly reports.
+
+Answer-4
+
+1.Connect to the Database
+.Use a connection string (server name, database name, username, password).
+.Tools like SQL Server Management Studio, Python, or ETL tools create this connection.
+
+2.Write the SQL Query
+.Use SQL commands to select the required data.
+Example:SELECT * FROM customers WHERE city = 'Delhi';
+
+3.Execute the Query
+.Run the SQL query to fetch the data.
+.The database returns the result set.
+
+4.Fetch and Retrieve the Data
+.The ETL tool or script collects the returned rows.
+.Data is temporarily stored in memory or a staging area.
+
+5️.Export or Load the Extracted Data
+Save the extracted data into:
+.CSV files
+.Data warehouse tables
+.Staging databases
+
+Answer-5
+1. Inconsistent or Poor‑Quality Data
+Data may contain missing values, duplicates, wrong formats, or errors.
+Different sources may store the same field in different formats (e.g., date formats).
+This makes extraction difficult and increases cleaning time.
+
+2. Multiple Data Formats & Sources
+Data comes from databases, CSV files, Excel, APIs, logs, and cloud storage.
+Each source has its own structure and connection method.
+ETL tools must handle all formats correctly, which increases complexity.
+
+3. Large Data Volume & Performance Issues
+Extracting huge datasets (GBs or TBs) can be slow.
+It may overload the source system or cause timeouts.
+Requires optimized queries, indexing, and incremental extraction.
+
+Answer-6
+APIs are interfaces that allow two systems to communicate and exchange data. 
+They help in real‑time data extraction by providing instant, live data in formats like JSON or XML.
+APIs eliminate the need for manual file downloads and allow ETL tools to automatically fetch updated 
+information at regular intervals.
+ 
+Answer-7
+Databases are preferred for enterprise‑level data extraction because they provide accurate and consistent data,
+handle large volumes efficiently, offer strong security, support complex SQL queries, 
+and integrate easily with ETL tools for automated and scheduled extraction.
+
+Answer-8
+ *Steps for Extracting Data from Large CSV Files (1GB+)
+1️.Use Chunking Instead of Loading Entire File
+.Load the file in small chunks (e.g., 10,000 or 50,000 rows at a time).
+.Prevents memory overload and speeds up processing.
+
+2️.Optimize File Reading
+.Use efficient libraries/tools like:
+.Python pandas.read_csv() with chunksize
+.Apache Spark
+.AWS Glue
+.Disable unnecessary features (like type inference) to improve speed.
+
+3.Validate Data While Reading
+.Check for missing values, incorrect formats, or corrupted rows.
+.Helps avoid errors during transformation.
+
+4️.Use Compression When Possible
+.Work with compressed formats like .gz or .zip.
+.Reduces disk usage and speeds up reading.
+
+5️.Move Data to a Staging Area
+.Store chunks temporarily in a staging database or cloud storage.
+.Makes transformation easier and more organized.
+
+6.Perform Incremental Extraction
+.Extract only new or updated data instead of the whole file.
+.Saves time and reduces load on the system.
+ 
+ 
+
