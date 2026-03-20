@@ -1,0 +1,105 @@
+ANSWER-1
+
+Data transformation in ETL is the process of converting raw data into a clean, consistent,
+and usable format. It is important because it improves data quality, standardizes data from multiple sources,
+prepares data for analysis, applies business rules, and ensures accurate decision‑making.
+ 
+ANSWER-2
+1.Handling Missing Values
+.Filling missing data using mean/median/mode
+.Or removing rows/columns with too many missing values
+
+2️.Removing Duplicates
+.Identifying and deleting repeated rows
+.Ensures accuracy and prevents double counting
+
+3️.Correcting Inconsistent Formats
+.Standardizing date formats, text cases, units, spelling, etc.
+Example: converting “male”, “MALE”, “M” into one format 
+
+4.Handling Outliers
+.Detecting unusual values
+.Either removing them or transforming them depending on the use case
+
+ANSWER-3
+
+Normalization vs Standardization
+1️.Normalization
+Normalization scales data to a fixed range, usually 0 to 1.
+
+Formula often used:
+
+Normalized value=𝑥−min(𝑥)max⁡(𝑥)−min⁡(𝑥)
+Useful when data does not follow a normal distribution.
+Sensitive to outliers.
+Example:If values are between 20 and 80, normalization converts them into 0–1 range.
+
+Standardization
+Standardization transforms data so it has:
+.Mean = 0
+.Standard deviation = 1
+
+Formula:
+𝑧=𝑥−𝜇/𝜎
+Works well when data follows a normal (Gaussian) distribution.
+Less affected by outliers compared to normalization.
+Example:Converts values into Z‑scores (how many standard deviations away from the mean).
+
+ANSWER-4
+
+1.Mean/Median Imputation
+How it works:
+.Replace missing “Age” values with the mean or median age of the column.
+
+When to use:
+.Mean → when data is normally distributed (no extreme outliers).
+.Median → when data has outliers (e.g., a few very high ages).
+
+2.Deleting Rows with Missing Age
+How it works:
+.Remove rows where the “Age” value is missing.
+
+When to use:
+.When the number of missing values is very small.
+.When deleting them does not affect the dataset size or analysis.
+
+ANSWER-5
+Standardized Gender Values
+Original Value  --	Standardized Format
+ M               	 Male
+ male	             Male
+ MALE	             Male
+ F	                 Female
+ f                   Female
+ Female   	         Female
+ 
+ANSWER-6
+
+One‑Hot Encoding converts categories into separate binary columns. For the categories “Red, Blue, Green”, the encoded form is:
+
+.Red → (1, 0, 0)
+
+.Blue → (0, 1, 0)
+
+.Green → (0, 0, 1) 
+
+ANSWER-7
+
+*Data Integration
+.It is the process of combining data from multiple sources into a single, unified system.
+.Focuses on bringing data together so it can be used for analysis or loading into a data warehouse.
+
+Example:
+Merging customer data from MySQL, Excel, and an API into one combined dataset.
+
+*Data Mapping
+.It is the process of defining how data fields from one source match or connect to fields in another system.
+.Focuses on matching columns, ensuring correct relationships and structure.
+
+Example:
+Mapping cust_id (source) → customer_id (target).
+
+ANSWER-8
+z‑score standardization is preferred when outliers exist because it is less sensitive to extreme values.
+Min‑Max scaling gets heavily distorted by outliers since it depends on minimum and maximum values,
+ while Z‑score maintains the overall distribution by scaling data based on mean and standard deviation.
