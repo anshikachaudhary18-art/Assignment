@@ -1,0 +1,240 @@
+ANSWER-1
+
+The dataset contains several issues that will cause errors during ETL and loading.
+
+1️.Duplicate Records
+.Order_ID = O101 appears twice
+.Customer_ID = C001 with the same Sales_Amount and Order_Date appears twice  
+Duplicates violate primary key rules and inflate sales totals.
+
+2️.Missing Values
+.Sales_Amount is NULL for Customer C002
+Missing numeric values break aggregations and cause load failures if the column is NOT NULL.
+
+3.Invalid Data Types
+.Sales_Amount = "Three Thousand" for Customer C004
+This is text instead of a number → will fail numeric validation.
+
+4️.Inconsistent Date Formats
+Order_Date contains multiple formats:
+
+.12-01-2024 (DD-MM-YYYY)
+.15-01-2024 (DD-MM-YYYY)
+.2024/01/18 (YYYY/MM/DD)
+.20-01-2024
+.25-01-2024
+
+Multiple formats cause parsing errors during loading.
+
+5.Primary Key Violation Risk
+Since Order_ID repeats (O101), the dataset cannot be loaded into a table where Order_ID is the primary key.
+
+6️.Inconsistent Customer_ID Usage
+Customer_ID repeats with identical values, indicating potential duplication or missing transaction‑level uniqueness.
+
+ANSWER-2
+a) Is the dataset violating the Primary Key rule?
+Yes, The dataset violates the Primary Key rule because Order_ID contains duplicates.
+
+.A primary key must be:
+.Unique
+.Not NULL
+.Identifies each row uniquely
+
+Since duplicates exist, the rule is broken.
+
+b) Which record(s) cause this violation?
+
+Order_ID	Customer_ID	 Sales_Amount	Order_Date
+O101	       C001	        4500	    12‑01‑2024
+O101	       C001     	4500	    12‑01‑2024
+These two rows are exact duplicates and violate the primary key constraint.
+
+ANSWER-3
+Missing Value Column:-
+Customer_ID 	Sales_Amount	Order_Date
+C002	           Null     	15‑01‑2024
+So the column with missing values is:
+
+-->Sales_Amount
+
+a.) List the affected records
+Only one record has a missing value:
+
+Order_ID	Customer_ID	 Sales_Amount	Order_Date
+O102	       C002	        Null	    15‑01‑2024
+
+c) Why is loading these records without handling missing values risky?
+1️.Breaks numeric calculations
+Sales_Amount is used for:
+
+.Total Sales
+.Revenue
+.KPIs
+.Aggregations
+
+A NULL value will cause incorrect totals or skipped rows.
+
+2.Can cause SQL load failures
+If the target table defines Sales_Amount as:
+
+.NOT NULL
+.DECIMAL
+
+…the load will fail.
+
+3️. Leads to misleading BI dashboards
+A missing Sales_Amount means:
+
+.Total Sales will be under‑reported
+.Customer C002’s contribution will appear as zero
+.KPIs become inaccurate
+
+ANSWER-4
+a) Which record(s) will fail numeric validation?
+ 
+Order_ID	Customer_ID	   Sales_Amount 	Order_Date
+O104	       C004       Three Thousand	20‑01‑2024
+--> This record will fail numeric validation
+Because “Three Thousand” is text, not a number.
+
+b) What would happen if this dataset is loaded into a SQL table with Sales_Amount as DECIMAL?
+The load will fail for this record
+Because SQL cannot convert the string “Three Thousand” into a decimal value.
+
+The ETL job may:
+Stop the entire load
+
+.Reject the row
+.Throw a data conversion error
+.cause partial load failure depending on ETL settings
+
+ANSWER-5
+a) Date formats present in the dataset
+From the dataset in the PDF (turn0browsertab1):
+
+Order_Date	Format Type
+12-01-2024	DD‑MM‑YYYY
+15-01-2024	DD‑MM‑YYYY
+2024/01/18	YYYY/MM/DD
+20-01-2024	DD‑MM‑YYYY
+25-01-2024	DD‑MM‑YYYY
+Two different date formats exist:
+.DD‑MM‑YYYY
+.YYYY/MM/DD
+
+b) Why is this a problem during data loading?
+1️.ETL tools cannot parse mixed formats
+2.SQL databases expect a single consistent format
+3.BI dashboards will show incorrect timelines
+
+ANSWER-6
+a) Should this dataset be loaded directly?
+No, The dataset is not ready for loading into the database.
+
+b)Justification Reason:-
+1️.Duplicate Primary Key Values (Order_ID)
+.O101 appears twice
+.This violates the primary key rule
+.Loading will fail or cause inconsistent data
+
+2.Missing Sales_Amount Values
+.Sales_Amount is NULL for Order_ID O102
+.Numeric columns often require NOT NULL
+.Aggregations and KPIs will be incorrect
+
+3.Invalid Data Type in Sales_Amount
+Three Thousand (Order_ID O104) is text, not a number
+
+Will fail DECIMAL conversion during loading
+
+ANSWER-7
+
+1.Primary Key Validation
+Check for duplicate Order_ID values
+Ensure Order_ID is not NULL
+(Your dataset has duplicates → O101 appears twice)
+
+2️. Missing Value Check
+Identify NULL values in critical fields
+Especially check Sales_Amount and Order_Date  
+(Your dataset has NULL in Sales_Amount for C002)
+
+3️.Data Type Validation
+Ensure Sales_Amount contains only numeric values
+Ensure Order_Date is a valid date
+(“Three Thousand” is invalid text)
+
+4️.Date Format Consistency
+Verify all dates follow a single format
+
+Convert mixed formats into a standard format
+(Your dataset has DD‑MM‑YYYY and YYYY/MM/DD)
+
+5.Duplicate Record Check
+Identify exact duplicate rows
+Remove or consolidate them
+(Your dataset has duplicate rows for O101)
+
+6. Business Rule Validation
+Sales_Amount must be > 0
+Order_Date must be valid and not future
+
+Customer_ID must follow expected pattern
+
+7️.Referential Integrity Check (if master tables exist)
+Ensure Customer_ID exists in Customer Master
+Ensure Product_ID exists in Product Master
+
+ANSWER-8
+
+Step‑by‑Step Cleaning Strategy
+1️. Remove Duplicate Records
+2️.Fix Primary Key Violation
+3️.Handle Missing Values
+4.Correct Invalid Data Types
+5.Standardize Date Formats
+6.Trim and Clean Text Fields
+7.Validate Business Rules
+8.Final Schema Alignment
+
+ANSWER-9
+*Incremental Load
+Because the dataset represents daily sales data, which changes every day and grows continuously.
+
+*Justification:--
+Daily sales data changes frequently
+Only new transactions for the day need to be added.
+Re‑loading the entire dataset every day is unnecessary and inefficient.
+
+2️.Incremental load reduces processing time
+Instead of loading all historical data again, the ETL pipeline loads only:
+New records
+Updated records (if any)
+This saves time and system resources.
+
+3️.Prevents duplication of historical data
+A full load every day would repeatedly reload old sales records, causing:
+Duplicate entries
+Primary key conflicts
+Data bloat
+
+Incremental load avoids this.
+
+4️.Standard industry practice
+For transactional datasets like:
+Sales
+Orders
+Payments
+Inventory movements
+
+Incremental loading is the standard ETL approach.
+
+ANSWER-10
+
+a)If loaded without cleaning, the Total Sales KPI will be incorrect due to duplicate sales, missing values, and invalid numeric entries. 
+
+b)The problematic records are O101 (duplicate), O102 (NULL Sales_Amount), and O104 (“Three Thousand”).
+ 
+c)BI tools do not detect these issues automatically because they assume data is clean, aggregate values blindly, and do not understand business rules.
+
