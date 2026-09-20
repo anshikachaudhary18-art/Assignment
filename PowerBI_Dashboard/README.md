@@ -1,7 +1,9 @@
 # Power BI Dashboard – Sample Superstore
 
+![Dashboard Preview](Superstore_Dashboard_View.png)
+
 ## 📊 Overview
-This dashboard analyzes sales and profit performance across regions, categories, and segments using the Sample Superstore dataset.
+An interactive Power BI dashboard analyzing sales and profit performance across regions, categories, and segments using the Sample Superstore dataset.
 
 ## 🔧 Tools Used
 - Power BI
@@ -13,7 +15,7 @@ This dashboard analyzes sales and profit performance across regions, categories,
 - Total Profit: -₹2.67K (negative margin of -1.80%)  
 - Technology category drives the highest revenue.  
 - West region shows the highest profit.  
-- Chairs sub‑category has high sales but low profit margin.  
+- Chairs sub-category has high sales but low profit margin.  
 - Consumer segment contributes ~50% of total sales.
 
 ## 🧠 Skills Demonstrated
@@ -24,5 +26,4 @@ This dashboard analyzes sales and profit performance across regions, categories,
 
 ## 📁 Files Included
 - `SAMPLE SUPERSTORE (DASHBOARD).pbix` – Power BI file  
-- Dashboard screenshots  
-- Dataset (if permitted)
+- `Superstore_Dashboard_View.png` – Dashboard screenshot
